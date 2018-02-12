@@ -1,11 +1,11 @@
 
 
 def all_palindromes(s):
-    """ Returns a list of distinct sub-strings of 1+ characters. 
+    """ Returns a list of distinct contiguous sub-strings of 1+ characters.
 
         >>> all_palindromes('abbabbaac')
         ['a', 'aa', 'abba', 'abbabba', 'b', 'bab', 'bb', 'bbabb', 'c']
-        
+
     """
 
     pals = set([])
