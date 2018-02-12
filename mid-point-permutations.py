@@ -51,4 +51,4 @@ def find_middle_permutation(permutations):
     if len(permutations) == 1:
         return permutations[0]
 
-    return permutations[ceil(len(sorted(permutations))/2.0)]
+    return permutations[ceil(len(sorted(permutations))/2.0)-1]
