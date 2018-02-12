@@ -34,7 +34,7 @@ def find_all_permutations(s):
         remaining = s[:i] + s[i+1:]
 
         for p in find_all_permutations(remaining):
-            permutations.append([current] + p)
+            permutations.append(current + p)
 
     return permutations
 
@@ -43,11 +43,12 @@ def find_middle_permutation(permutations):
     """ Returns the string located at the midpoint of the sorted list.
 
     """
+    from math import ceil
 
-    if len(permutations) == 0
+    if len(permutations) == 0:
         return None
 
-    if len(permutations) == 1
+    if len(permutations) == 1:
         return permutations[0]
 
-    return permutations[ceiling(len(permutations.sort())/2.0)]
+    return permutations[ceil(len(sorted(permutations))/2.0)]
