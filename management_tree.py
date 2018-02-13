@@ -99,3 +99,6 @@ def get_management_root(employees):
     return root
 
 
+########################################
+if __name__ == '__main__':
+    create_management_tree(mgr_rpt_pairs)
