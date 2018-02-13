@@ -20,10 +20,10 @@
 #
 # == Input
 # #
-# management_pairs = [('Ben', 'Charlie'),
-#                     ('Alice', 'Ben'),
-#                     ('Ben', 'Denis'),
-#                     ]
+mgr_rpt_pairs = [('Benji', 'Cherise'),
+                 ('Alice', 'Benji'),
+                 ('Benji', 'Denise'),
+                 ]
 #
 # == Output
 #
@@ -47,18 +47,35 @@ class Node(object):
 
     def add_reportee(self, reportee=None):
         if reportee:
-            self.reportees.append(reportee)
+            self.reportees.append(Node(reportee))
 
 
-def create_management_tree(mgr_emp_pairs):
-    nodes = {}
+def create_management_tree(mgr_rpt_pairs):
+    pass
 
-    for mgr, emp in mgr_emp_pairs:
-        if not mgr in nodes:
-            new_node = Node(mgr)
-            new_node.add_reportee(emp)
-            nodes[mgr] = new_node
-        else:
-            nodes[mgr].add_reportee(emp)
+def create_employees(mgr_rpt_pairs):
 
+    # create dict of mgr nodes with list of names only in node.reportees
+    employees = {}
+    for mgr, rpt in mgr_rpt_pairs:
+        if not mgr in employees:
+            employees[mgr] = []
+        employees[mgr].append(rpt)
+
+    return employees
+
+
+def get_management_root(employees):
+    """ return root node and employees dict for tree assembly """
+
+    # get set of all reportees (sometimes people have more than 1 boss)
+    reportees_set = set()
+    for rpt in employees.itervalues():
+        reportees_set.add(rpt)
+
+    managers_set = employees.viewkeys()
+
+    root = (managers_set - reportees_set).pop()
+
+    return (root, employees)
 
