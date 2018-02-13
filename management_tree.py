@@ -42,6 +42,9 @@ class Node(object):
         self.name = name
         self.reportees = []
 
+    def __repr__(self):
+        return "<Node {}>".format(self.name)
+
     def add_reportee(self, reportee=None):
         if reportee:
             self.reportees.append(reportee)
