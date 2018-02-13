@@ -38,59 +38,40 @@ mgr_rpt_pairs = [('Benji', 'Cherise'),
 
 from collections import deque
 
-class Node(object):
+class Employee(object):
 
-    def __init__(self, name):  # name as string
+    def __init__(self, name, reportees=[]):  # name as string; reportees as list
         self.name = name
-        self.reportees = []
+        self.reportees = reportees
 
     def __repr__(self):
-        return "<Node {}>".format(self.name)
+        return "<Employee {}>".format(self.name)
 
-    def add_reportee(self, reportee):  # reportee as string or Node
-        if type(reportee) == str:
-            reportee = Node(reportee)
+    def add_reportee(self, reportee):  # reportee as Employee
         self.reportees.append(reportee)
 
 
-class Tree(object):
-
-    def __init__(self, root):  # root as Node
-        self.root = root
-
-    def __repr__(self):
-        return "<Tree with root {}".format(self.root)
-
-    def build_tree(self, employees):  # employees as dictionary
-        pass
-
-
-def create_management_tree(mgr_rpt_pairs):  # root as str; employees as dict
-
-    # get employees and root
-    employees = create_employees(mgr_rpt_pairs)
-    root = get_management_root(employees)
-
-    # start tree
-    root_node = Node(root)
-    tree = Tree(root_node)
-
-    # breadth-first traversal of dictionary to make tree
-    emp_queue = deque()
-
-    for rpt in employees[root]:
-        root_node.add_reportee(rpt)
-
+def inorder(employee, level=0):
+    if employee:
+        level += 1
+        print employee.name
+        for reportee in employee.reportees:
+            print "    " * level,
+            inorder(reportee, level)
 
 
 def create_employees(mgr_rpt_pairs):
 
-    # create dict of mgr nodes with list of names only in node.reportees
+    # create dict of employee nodes
     employees = {}
+
     for mgr, rpt in mgr_rpt_pairs:
+        if not rpt in employees:
+            employees[rpt] = Employee(rpt, [])
         if not mgr in employees:
-            employees[mgr] = []
-        employees[mgr].append(rpt)
+            employees[mgr] = Employee(mgr, [employees[rpt]])
+        else:
+            employees[mgr].add_reportee(employees[rpt])
 
     return employees
 
@@ -109,3 +90,44 @@ def get_management_root(employees):
 
     return root
 
+
+class Tree(object):
+
+    def __init__(self, root):  # root as Employee
+        self.root = root
+
+    def __repr__(self):
+        return "<Tree with root {}".format(self.root)
+
+    def build_tree(self, employees):  # employees as dictionary
+        pass
+
+
+def create_management_tree(mgr_rpt_pairs):  # root as str; employees as dict
+
+    # get employees and root
+    employees = create_employees(mgr_rpt_pairs)
+    root = get_management_root(employees)
+
+
+    # breadth-first traversal of dictionary to make tree
+    # start with root's reportees
+    emp_queue = deque()
+    emp_queue.append(root)
+
+    while emp_queue:
+        # get current manager (first pass will be root!)
+        curr_mgr = emp_queue.popleft()
+
+        # add reportees to emp queue
+        emp_queue.extend(employees[curr_mgr])
+
+        # make node for current manager
+        curr_mgr_node = Employee(curr_mgr)
+
+        # start tree if necessary
+        if not tree:
+            tree = Tree(curr_mgr_node)
+
+        if prev_mgr_node:
+            prev_mgr_node.add_reportee(curr_mgr_node)
