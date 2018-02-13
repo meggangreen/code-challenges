@@ -51,15 +51,14 @@ class Node(object):
 
 
 def create_management_tree(mgr_emp_pairs):
-    nodes = set()
+    nodes = {}
 
     for mgr, emp in mgr_emp_pairs:
+        if not mgr in nodes:
+            new_node = Node(mgr)
+            new_node.add_reportee(emp)
+            nodes[mgr] = new_node
+        else:
+            nodes[mgr].add_reportee(emp)
 
-        new_node = Node(mgr)
-        new_node.add_reportee(emp)
-        nodes.add(new_node)
 
-
-
-    mgrs = set()
-    emps = set()
