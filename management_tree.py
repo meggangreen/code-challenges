@@ -79,14 +79,12 @@ def create_employees(mgr_rpt_pairs):
 def get_management_root(employees):
     """ return root for tree assembly """
 
-    # get set of all reportees (sometimes people have more than 1 boss)
     reportees_set = set()
-    for rpt in employees.itervalues():
-        reportees_set.add(rpt)
+    employees_set = set(employees.values())
+    for emp in employees_set:
+        reportees_set |= emp.reportees
 
-    managers_set = employees.viewkeys()
-
-    root = (managers_set - reportees_set).pop()
+    root = (employees_set - reportees_set).pop()
 
     return root
 
