@@ -1,6 +1,7 @@
 
 def get_dishes_by_ingredient(dishes):
     """ Returns a matrix of ingredients of which two or more dishes can be made.
+        Written with amsowie
 
         >>> dishes = [["pasta", "tomato sauce", "chicken", "garlic", "cheese"],
                       ["chicken curry", "chicken", "curry"],
