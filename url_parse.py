@@ -67,6 +67,10 @@ def url_attrs_re(url):
         for i in range(0, len(attr_list), 2):
             attrs[attr_list[i]] = attr_list[i+1]
 
+    # comprehension works, but it is ugly -- map?
+    attrs = { attr.split('=')[i]: attr.split('=')[i+1] for i in range(
+                                0, len(attr.split('=')), 2) for attr in m_obj }
+
     return attrs
 
 
