@@ -25,3 +25,13 @@ def get_dishes_by_ingredient(dishes):
 
 
 print get_dishes_by_ingredient(dishes)
+
+
+#############################
+
+if __name__ == "__main__":
+    import doctest
+
+    result = doctest.testmod()
+    if not result.failed:
+        print("\n----- ALL TESTS PASSED -----\n")
