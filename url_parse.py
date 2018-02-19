@@ -19,6 +19,24 @@ def which_page(url):
     return page
 
 
+def which_page_re(url):
+    """ Uses regex to return the current page of Google search results based on
+        the URL.
+
+        >>> url = 'https://www.google.com/search?q=postgres+generate+uuid+on+insert&page=12&ei=E3SCWpQ&start=30&sa=N&biw=1245&bih=703'
+        >>> which_page_re(url)
+        12
+
+    """
+
+    import re
+
+    m_obj = re.search(r'&page=\d*', url)
+    page = int(m_obj.group(0)[6:])
+
+    return page
+
+
 def url_attrs(url):
     domain = url[:url.find('?')]
 
