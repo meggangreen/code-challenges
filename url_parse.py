@@ -38,6 +38,7 @@ def which_page_re(url):
 
 
 def url_attrs(url):
+
     domain = url[:url.find('?')]
 
     attrs_list = url[url.find('?')+1:].split('&')
@@ -49,6 +50,24 @@ def url_attrs(url):
         attrs_dict[attr[:i]] = attr[i+1:]
 
     return attrs_dict
+
+
+def url_attrs_re(url):
+
+    import re
+
+    attr_string = url[url.find('?')+1:]  # after the '?' signaling the attrs
+
+    m_obj = re.findall(r'[+A-Za-z0-9]+=[+A-Za-z0-9]+', attr_string)
+
+    # this loop works, but i want it in a comprehension
+    attrs = {}
+    for attr in m_obj:
+        attr_list = attr.split('=')
+        for i in range(0, len(attr_list), 2):
+            attrs[attr_list[i]] = attr_list[i+1]
+
+    return attrs
 
 
 url = 'https://www.google.com/search?q=postgres+generate+uuid+on+insert&page=12&ei=E3SCWpQ&start=30&sa=N&biw=1245&bih=703'
