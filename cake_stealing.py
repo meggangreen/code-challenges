@@ -36,15 +36,13 @@ def max_cake_payoff(cakes, capacity):
                 # addition to the cake we're adding is the current capacity
                 # minus the cake's weight. We find the max value at that
                 # integer capacity in our list max_payoffs_at_capacities
-                max_payoff_using_cake = (
-                    cake_value
-                    + max_payoffs_at_capacities[curr_capacity - cake_weight]
-                )
+                max_payoff_using_cake = (cake_value +
+                        max_payoffs_at_capacities[curr_capacity - cake_weight])
 
                 # Now we see if it's worth taking the cake. how does the
                 # value with the cake compare to the curr_max_payoff?
                 curr_max_payoff = max(max_payoff_using_cake,
-                                        curr_max_payoff)
+                                      curr_max_payoff)
 
         # Add each capacity's max value to our list so we can use them
         # when calculating all the remaining capacities
