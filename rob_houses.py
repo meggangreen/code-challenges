@@ -30,7 +30,11 @@ def rob_max_value(houses):
     if len(houses) == 1:
         return houses[0]
 
-    values.append(max(houses[0], houses[1]))
+    if len(houses) == 2:
+        return max(houses[0], houses[1])
+
+    values.append(houses[0])
+    values.append(max(values[0], houses[1]))
 
     for i in range(2, len(houses)):
         values.append(max(values[i-1], values[i-2] + houses[i]))
