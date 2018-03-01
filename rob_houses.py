@@ -12,13 +12,13 @@ def rob_max_value(houses):
         cannot be adjacent.
 
         >>> rob_max_value(street)
-
+        913
 
         >>> rob_max_value(avenue)
-
+        222
 
         >>> rob_max_value(circle)
-
+        25
 
     """
 
