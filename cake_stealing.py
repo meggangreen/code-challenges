@@ -4,13 +4,19 @@
 
 """
 
-def max_duffel_bag_value(cake_tuples, weight_capacity):
-    # We make a list to hold the maximum possible value at every
-    # duffel bag weight capacity from 0 to weight_capacity
-    # starting each index with value 0
-    max_values_at_capacities = [0] * (weight_capacity + 1)
+def max_duffel_bag_value(cakes, capacity):
+    """
+        >>> cakes = [ (3, 34), (7, 52), (4, 14), (6, 28) ]
+        >>> capacity = 25
 
-    for current_capacity in xrange(weight_capacity + 1):
+
+    """
+
+    # We make a list to hold the maximum possible value at every bag weight
+    # capacity from 0 to 'capacity' starting each index with value 0
+    max_values_at_capacities = [0] * (capacity + 1)
+
+    for current_capacity in xrange(capacity + 1):
         # Set a variable to hold the max monetary value so far
         # for current_capacity
         current_max_value = 0
@@ -45,4 +51,4 @@ def max_duffel_bag_value(cake_tuples, weight_capacity):
         # when calculating all the remaining capacities
         max_values_at_capacities[current_capacity] = current_max_value
 
-    return max_values_at_capacities[weight_capacity]
+    return max_values_at_capacities[capacity]
