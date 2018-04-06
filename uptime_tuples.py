@@ -54,37 +54,41 @@ def combine_uptimes(device, total):
 
     combined = []
     while d < len(device) or t < len(total):
+        # Break out when index markers reach len(list)
+        if d = len(device):
+            combined.extend([total[t] for t in range(t, len(total))])
+            break
+        if t = len(total):
+            combined.extend([device[d] for d in range(d, len(device))])
+            break
 
-        # Compare states: list[i][1]
+        # Initialize or reset variables
+        time, state = None, None
+
+        # If states -- list[i][1] -- match:
         if device[d][1] == total[t][1]:
             state = total[t][1]
+
+            # Take min uptime or max downtime
             if state == 1:
                 time = min(device[d][0], total[t][0])
             else:
                 time = max(device[d][0], total[t][0])
+
+            # Increment both index markers
             d += 1
             t += 1
 
+        # Otherwise, take the downtime tuple and increase its list index marker
         elif device[d][1] == 0:
             time, state, d  = device[d][0], device[d][1], d + 1
         elif total[t][1] == 0:
             time, state, t  = total[t][0], total[t][1], t + 1
+        # The states should match for the rest of the lists
 
-        # Append time-state tuple to combined list
+        # Append time-state tuple to combined
         combined.append((time, state))
 
+    return combined
 
-        # Initialize or reset variables
-        state = None
-        next_state = None
-
-        else:
-            state = min(device[d][1], total[t][1])  # 0/1
-            next_state = max(device[d][1], total[t][1])  # 0/1
-
-        # Take minimum uptime or maximum downtime
-
-
-    i = 0
-    for time, state in device:  # reversed(range(len())) # Loop backwards without copy
 
