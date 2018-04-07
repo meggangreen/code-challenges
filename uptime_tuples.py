@@ -42,7 +42,7 @@ def get_total_uptime(network_uptimes):
         #     continue
 
         # If we're still going, then merge lists
-        total_uptime = combine_uptimes(device_uptime, total_uptime)
+        total_uptime = combine_uptimes([device_uptime, total_uptime])
 
     return total_uptime
 
@@ -64,8 +64,11 @@ def combine_uptimes(uptimes):
     # no change to other i
     # (states should now match for the rest of lists)
 
+    print(uptimes)
+    import pdb; pdb.set_trace()
+
     if len(uptimes) == 1:
-        return uptimes
+        return uptimes[0]
     elif len(uptimes) > 2:
         i = len(uptimes) // 2
         a_uptimes = combine_uptimes(uptimes[:i])
@@ -75,7 +78,7 @@ def combine_uptimes(uptimes):
         b_uptimes = uptimes[1]
 
     # Set final time; should be same always; used for best/worst scenario
-    end_time = network_uptimes[0][-1][0]
+    end_time = uptimes[0][-1][0]
 
     # Ways to exit early:
     # Best or Worst possible uptime
