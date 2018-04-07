@@ -1,6 +1,6 @@
 # Given by Adam Berman of Cisco Meraki; adam.berman@meraki.net
 
-# A given list of tuples that represent the time marker in milliseconds at state
+# A given list of tuples represents the time marker in milliseconds at state
 # change and a state marker of 1 (up) or 0 (down) for one device. Given a list
 # of the time-state tuples for many -- thousands -- of devices, and operating on
 # the axiom that if one device is down, the entire network is down, represent
