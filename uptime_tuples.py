@@ -67,17 +67,7 @@ def combine_uptimes(uptimes):
 
     """
 
-    # when states match:
-    # if state == 1, take min time
-    # if state == 0, take max time
-    # increase both i
-
-    # when states don't match:
-    # take 0 state tuple
-    # increase 0 state tuple i
-    # no change to other i
-    # (states should now match for the rest of lists)
-
+    # Base case rules
     if len(uptimes) == 1:
         return uptimes[0]
     elif len(uptimes) > 2:
