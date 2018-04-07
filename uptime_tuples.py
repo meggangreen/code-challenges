@@ -6,38 +6,52 @@
 # the axiom that if one device is down, the entire network is down, represent
 # the overall network time and state in one list of tuples.
 #
-# Eg: [[(2000, 1), (3000, 0), (6000, 1)], ==> [(2000, 1), (4000, 0), (6000, 1)]
+# Eg: [[(2000, 1), (3000, 0), (6000, 1)], ==> [(2000, 1), (4000, 0), (5000, 1), (6000, 0)]
 #      [(3000, 1), (4000, 0), (5000, 1), (6000, 0)],
 #      [(6000, 1)]]
 #
 # Optimized answer uses in O(nlogn) time and space.
 #
 
-def get_total_uptime(network_uptime):
+
+# This started to look like merge sort, which makes me think we can do the
+# combination line recursively on a pair of devices and build up like a NCAA
+# bracket to a final combination -- is that how we get to O(nlogn) time?
+
+
+def get_total_uptime(network_uptimes):
     """ Returns one list of tuples representing overall network uptime. """
 
     total_uptime = []
-    end_time = network_uptime[0][-1][0]  # Final timestamp
+    end_time = network_uptimes[0][-1][0]  # Final timestamp
 
-    ideal_uptime = (end_time, 1)  # Ideal is up (1) for entire time
+    for device_uptime in network_uptimes:
 
-    for device_uptime in network_uptime:
-        # Exit this device, and possibly this function, early
-        if network_uptime.index(device_uptime) == 0:
-            total_uptime = network_uptime[0]
+        # Ways to exit this device, and possibly this function, early:
+        # if device_uptime == [(end_time, 0)]:  # Device was down 100%; return
+        #     return device_uptime
+
+        if not total_uptime:  # At first run
+            total_uptime = device_uptime
             continue
-        if len(device_uptime) == 1:
-            if device_uptime != [ideal_uptime]:  # Device was down 100%
-                return device_uptime
-            else:
-                continue  # Device was up 100%; skip it
+
+        # if device_uptime == [(end_time, 1)]:  # Device was up 100%; skip combine
+        #     continue
+
+        # if device_uptime == total_uptime:  # Combining would be redundant
+        #     continue
+
+        # If we're still going, then merge lists
         total_uptime = combine_uptimes(device_uptime, total_uptime)
 
     return total_uptime
 
 
-def combine_uptimes(device, total):
-    """ Combines or flattens two lists of time-state tuples. """
+def combine_uptimes(uptimes):
+    """ Combines two lists of time-state tuples. Runs recursively if called on
+        more than two devices.
+
+    """
 
     # when states match:
     # if state == 1, take min time
@@ -50,45 +64,67 @@ def combine_uptimes(device, total):
     # no change to other i
     # (states should now match for the rest of lists)
 
-    d, t = 0, 0
+    if len(uptimes) == 1:
+        return uptimes
+    elif len(uptimes) > 2:
+        i = len(uptimes) // 2
+        a_uptimes = combine_uptimes(uptimes[:i])
+        b_uptimes = combine_uptimes(uptimes[i:])
+    else:
+        a_uptimes = uptimes[0]
+        b_uptimes = uptimes[1]
 
+    # Set final time; should be same always; used for best/worst scenario
+    end_time = network_uptimes[0][-1][0]
+
+    # Ways to exit early:
+    # Best or Worst possible uptime
+    if a_uptimes == [(end_time, 0)] or b_uptimes == [(end_time, 1)]:
+        return a_uptimes
+    if b_uptimes == [(end_time, 0)] or a_uptimes == [(end_time, 1)]:
+        return b_uptimes
+    # Uptimes are equal
+    if a_uptimes == b_uptimes:
+        return a_uptimes
+
+    # Let's start
+    a, b = 0, 0
     combined = []
-    while d < len(device) or t < len(total):
+
+    while a < len(a_uptimes) or b < len(b_uptimes):
         # Break out when index markers reach len(list)
-        if d = len(device):
-            combined.extend([total[t] for t in range(t, len(total))])
+        if a == len(a_uptimes):
+            combined.extend([b_uptimes[b] for b in range(b, len(b_uptimes))])
             break
-        if t = len(total):
-            combined.extend([device[d] for d in range(d, len(device))])
+        if b == len(b_uptimes):
+            combined.extend([a_uptimes[a] for a in range(a, len(a_uptimes))])
             break
 
         # Initialize or reset variables
         time, state = None, None
 
         # If states -- list[i][1] -- match:
-        if device[d][1] == total[t][1]:
-            state = total[t][1]
+        if a_uptimes[a][1] == b_uptimes[b][1]:
+            state = b_uptimes[b][1]
 
             # Take min uptime or max downtime
             if state == 1:
-                time = min(device[d][0], total[t][0])
+                time = min(a_uptimes[a][0], b_uptimes[b][0])
             else:
-                time = max(device[d][0], total[t][0])
+                time = max(a_uptimes[a][0], b_uptimes[b][0])
 
             # Increment both index markers
-            d += 1
-            t += 1
+            a += 1
+            b += 1
 
         # Otherwise, take the downtime tuple and increase its list index marker
-        elif device[d][1] == 0:
-            time, state, d  = device[d][0], device[d][1], d + 1
-        elif total[t][1] == 0:
-            time, state, t  = total[t][0], total[t][1], t + 1
+        elif a_uptimes[a][1] == 0:
+            time, state, a = a_uptimes[a][0], a_uptimes[a][1], a + 1
+        elif b_uptimes[b][1] == 0:
+            time, state, b = b_uptimes[b][0], b_uptimes[b][1], t + 1
         # The states should match for the rest of the lists
 
         # Append time-state tuple to combined
         combined.append((time, state))
 
     return combined
-
-
