@@ -23,8 +23,8 @@ def get_total_uptime(network_uptimes):
     """ Returns one list of tuples representing overall network uptime.
 
         >>> uptimes = [[(2000, 1), (3000, 0), (6000, 1)],
-                       [(3000, 1), (4000, 0), (5000, 1), (6000, 0)],
-                       [(6000, 1)]]
+        ...            [(3000, 1), (4000, 0), (5000, 1), (6000, 0)],
+        ...            [(6000, 1)]]
         >>> get_total_uptime(uptimes)
         [(2000, 1), (4000, 0), (5000, 1), (6000, 0)]
 
@@ -60,8 +60,8 @@ def combine_uptimes(uptimes):
         more than two devices.
 
         >>> uptimes = [[(2000, 1), (3000, 0), (6000, 1)],
-                       [(3000, 1), (4000, 0), (5000, 1), (6000, 0)],
-                       [(6000, 1)]]
+        ...            [(3000, 1), (4000, 0), (5000, 1), (6000, 0)],
+        ...            [(6000, 1)]]
         >>> get_total_uptime(uptimes)
         [(2000, 1), (4000, 0), (5000, 1), (6000, 0)]
 
@@ -77,9 +77,6 @@ def combine_uptimes(uptimes):
     # increase 0 state tuple i
     # no change to other i
     # (states should now match for the rest of lists)
-
-    print(uptimes)
-    import pdb; pdb.set_trace()
 
     if len(uptimes) == 1:
         return uptimes[0]
@@ -145,3 +142,10 @@ def combine_uptimes(uptimes):
         combined.append((time, state))
 
     return combined
+
+
+################################################################################
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
