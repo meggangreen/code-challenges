@@ -19,6 +19,9 @@
 # bracket to a final combination -- is that how we get to O(nlogn) time?
 
 
+### Python 3 ###
+
+
 def get_total_uptime(network_uptimes):
     """ Returns one list of tuples representing overall network uptime.
 
