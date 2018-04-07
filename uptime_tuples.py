@@ -20,7 +20,15 @@
 
 
 def get_total_uptime(network_uptimes):
-    """ Returns one list of tuples representing overall network uptime. """
+    """ Returns one list of tuples representing overall network uptime.
+
+        >>> uptimes = [[(2000, 1), (3000, 0), (6000, 1)],
+                       [(3000, 1), (4000, 0), (5000, 1), (6000, 0)],
+                       [(6000, 1)]]
+        >>> get_total_uptime(uptimes)
+        [(2000, 1), (4000, 0), (5000, 1), (6000, 0)]
+
+    """
 
     total_uptime = []
     end_time = network_uptimes[0][-1][0]  # Final timestamp
@@ -50,6 +58,12 @@ def get_total_uptime(network_uptimes):
 def combine_uptimes(uptimes):
     """ Combines two lists of time-state tuples. Runs recursively if called on
         more than two devices.
+
+        >>> uptimes = [[(2000, 1), (3000, 0), (6000, 1)],
+                       [(3000, 1), (4000, 0), (5000, 1), (6000, 0)],
+                       [(6000, 1)]]
+        >>> get_total_uptime(uptimes)
+        [(2000, 1), (4000, 0), (5000, 1), (6000, 0)]
 
     """
 
