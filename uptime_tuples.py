@@ -15,7 +15,7 @@
 
 
 # This started to look like merge sort, which makes me think we can do the
-# combination line recursively on a pair of devices and build up like a NCAA
+# combination func recursively on a pair of devices and build up like a NCAA
 # bracket to a final combination -- is that how we get to O(nlogn) time?
 
 
