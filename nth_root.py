@@ -13,7 +13,7 @@ def calc_root_shifting_point(radicand, index):
     if index == 1:
         return radicand
 
-    # Set up blocks of numbers (possible helper func)
+    # Set up blocks of numbers (move to helper func)
     rad_s = str(radicand)
     dec = rad_s.find('.')
     rad_s = rad_s[:dec] + rad_s[dec+1:]
